@@ -5,10 +5,6 @@ object Day4 {
     @JvmStatic
     fun main(args: Array<String>) {
         val file = File(javaClass.getResource("day4.txt").toURI())
-        file.readPassports().forEach {
-            println(it)
-            println(it.isValid())
-        }
         val validPassports = file.readPassports().filter { it.isValid() }.count()
         println(validPassports)
     }
@@ -63,11 +59,11 @@ object Day4 {
         private fun isExpirationYearValid() = entries["eyr"]?.toInt() in 2020..2030
 
         private fun isHeightValid() = entries["hgt"]?.let { rawHeight ->
-            HEIGHT_REGEX.matchEntire(rawHeight)!!.destructured.let {
-                if (it.component2() == "cm") {
-                    it.component1().toInt() in 150..190
-                } else {
-                    it.component1().toInt() in 59..76
+            HEIGHT_REGEX.matchEntire(rawHeight)!!.destructured.let { match ->
+                when (match.component2()) {
+                    "cm" -> match.component1().toInt() in 150..193
+                    "in" -> match.component1().toInt() in 59..76
+                    else -> false
                 }
             }
         } ?: false

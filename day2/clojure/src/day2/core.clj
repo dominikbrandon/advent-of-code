@@ -1,17 +1,19 @@
 (ns day2.core)
-(use 'clojure.java.io)
+
+(use
+ 'clojure.java.io)
 
 (defn is-valid
   [password]
   true)
 
-(defn validate-line
-  [line]
+(defn validate-line [line]
   (def matches (re-find #"(\d+)-(\d+) (\w): (\w+)" line))
-  (def password {:value           (nth matches 4)
-                 :character       (nth matches 3)
-                 :min-occurrences (nth matches 1)
-                 :max-occurrences (nth matches 2)})
+  (def password
+    {:value           (nth matches 4)
+     :character       (nth matches 3)
+     :min-occurrences (nth matches 1)
+     :max-occurrences (nth matches 2)})
   (is-valid password))
 
 (defn -main [& args]
